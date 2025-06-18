@@ -19,6 +19,9 @@ jobs:
           server-username: ${{ secrets.OSSRH_USERNAME }}
           server-password: ${{ secrets.OSSRH_PASSWORD }}
 
+      - name: Grant execute permission for Gradlew
+        run: chmod +x ./gradlew
+
       - name: Publish
         run: ./gradlew publishReleasePublicationToSonatypeRepository closeAndReleaseSonatypeStagingRepository
         env:
