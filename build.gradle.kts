@@ -7,14 +7,11 @@ plugins {
     alias(libs.plugins.maven.publish) // nexus publish plugin
 }
 
-val ossrhUsername: String? = project.findProperty("OSSRH_USERNAME") as? String ?: System.getenv("OSSRH_USERNAME")
-val ossrhPassword: String? = project.findProperty("OSSRH_PASSWORD") as? String ?: System.getenv("OSSRH_PASSWORD")
-
 nexusPublishing {
     repositories {
         sonatype {
-            username.set(ossrhUsername ?: error("OSSRH_USERNAME not found"))
-            password.set(ossrhPassword ?: error("OSSRH_PASSWORD not found"))
+            username.set(System.getenv("OSSRH_USERNAME"))
+            password.set(System.getenv("OSSRH_PASSWORD"))
         }
     }
 }
