@@ -7,14 +7,14 @@ plugins {
     alias(libs.plugins.maven.publish) // nexus publish plugin
 }
 
+val ossrhUsername: String? = project.findProperty("OSSRH_USERNAME") as? String ?: System.getenv("OSSRH_USERNAME")
+val ossrhPassword: String? = project.findProperty("OSSRH_PASSWORD") as? String ?: System.getenv("OSSRH_PASSWORD")
+
 nexusPublishing {
     repositories {
         sonatype {
-            username.set(System.getenv("OSSRH_USERNAME"))
-            password.set(System.getenv("OSSRH_PASSWORD"))
-            // Gerekirse URL’ler belirlenebilir
-            nexusUrl.set(uri("https://ossrh-staging-api.central.sonatype.com/service/local/"))
-            snapshotRepositoryUrl.set(uri("https://central.sonatype.com/repository/maven-snapshots/"))
+            username.set(ossrhUsername ?: error("OSSRH_USERNAME not found"))
+            password.set(ossrhPassword ?: error("OSSRH_PASSWORD not found"))
         }
     }
 }
