@@ -20,5 +20,4 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "ChoiceDial"
-include(":app")
 include(":choicedial")
