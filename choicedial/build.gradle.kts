@@ -2,7 +2,12 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("maven-publish")
+    id("signing")
 }
+
+group = "io.github.enesokurterzi"
+version = "1.0.0"
 
 android {
     namespace = "com.enesokurterzi.choicedial"
@@ -10,7 +15,6 @@ android {
 
     defaultConfig {
         minSdk = 24
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
@@ -24,20 +28,68 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+
     kotlinOptions {
         jvmTarget = "11"
     }
+
     buildFeatures {
         compose = true
     }
 }
 
-dependencies {
+afterEvaluate {
+    publishing {
+        publications {
+            create<MavenPublication>("release") {
+                from(components["release"])
 
+                groupId = "io.github.enesokurterzi"
+                artifactId = "choicedial"
+                version = "1.0.0"
+
+                pom {
+                    name.set("ChoiceDial")
+                    description.set("A lightweight customizable dial-style picker library for Jetpack Compose.")
+                    url.set("https://github.com/enesokurterzi/ChoiceDial")
+                    licenses {
+                        license {
+                            name.set("The Apache License, Version 2.0")
+                            url.set("https://www.apache.org/licenses/LICENSE-2.0.txt")
+                        }
+                    }
+                    developers {
+                        developer {
+                            id.set("enesokurterzi")
+                            name.set("Enes Okurterzi")
+                            email.set("enes.okurterzi98@gmail.com")
+                        }
+                    }
+                    scm {
+                        connection.set("scm:git:github.com/enesokurterzi/ChoiceDial.git")
+                        developerConnection.set("scm:git:ssh://github.com/enesokurterzi/ChoiceDial.git")
+                        url.set("https://github.com/enesokurterzi/ChoiceDial")
+                    }
+                }
+            }
+        }
+    }
+
+    signing {
+        useInMemoryPgpKeys(
+            System.getenv("SIGNING_KEY"),
+            System.getenv("SIGNING_PASSWORD")
+        )
+        sign(publishing.publications["release"])
+    }
+}
+
+dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
