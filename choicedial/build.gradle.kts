@@ -56,7 +56,7 @@ afterEvaluate {
                 pom {
                     name.set("ChoiceDial")
                     description.set("A lightweight customizable dial-style picker library for Jetpack Compose.")
-                    url.set("https://github.com/enesokurterzi/ChoiceDial")
+                    url.set("https://github.com/enesokurterzi/choice-dial")
                     licenses {
                         license {
                             name.set("The Apache License, Version 2.0")
@@ -71,9 +71,9 @@ afterEvaluate {
                         }
                     }
                     scm {
-                        connection.set("scm:git:github.com/enesokurterzi/ChoiceDial.git")
-                        developerConnection.set("scm:git:ssh://github.com/enesokurterzi/ChoiceDial.git")
-                        url.set("https://github.com/enesokurterzi/ChoiceDial")
+                        connection.set("scm:git:github.com/enesokurterzi/choice-dial.git")
+                        developerConnection.set("scm:git:ssh://github.com/enesokurterzi/choice-dial.git")
+                        url.set("https://github.com/enesokurterzi/choice-dial")
                     }
                 }
             }
