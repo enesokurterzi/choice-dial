@@ -7,9 +7,12 @@ plugins {
     alias(libs.plugins.maven.publish) // nexus publish plugin
 }
 
+
 nexusPublishing {
     repositories {
         sonatype {
+            nexusUrl.set(uri("https://ossrh-staging-api.central.sonatype.com/service/local/"))
+            snapshotRepositoryUrl.set(uri("https://central.sonatype.com/repository/maven-snapshots/"))
             username.set(System.getenv("OSSRH_USERNAME"))
             password.set(System.getenv("OSSRH_PASSWORD"))
         }
