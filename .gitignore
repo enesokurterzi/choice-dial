@@ -8,6 +8,7 @@ captures/
 
 # Local configuration
 local.properties
+secrets.properties
 *.iml
 *.ipr
 *.iws
@@ -15,6 +16,7 @@ local.properties
 # Keystore files
 *.jks
 *.keystore
+.env
 
 # OS-specific
 .DS_Store
