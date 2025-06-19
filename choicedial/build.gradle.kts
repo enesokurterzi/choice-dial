@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "io.github.enesokurterzi"
-version = "1.0.0"
+version = "1.0.14"
 
 android {
     namespace = "com.enesokurterzi.choicedial"
