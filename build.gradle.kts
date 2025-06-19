@@ -9,12 +9,19 @@ plugins {
     id("io.github.gradle-nexus.publish-plugin") version "2.0.0"
 }
 
+val ossrhUsername: String = System.getenv("OSSRH_USERNAME")
+    ?: project.findProperty("OSSRH_USERNAME") as? String
+    ?: error("OSSRH_USERNAME not found.")
+
+val ossrhPassword: String = System.getenv("OSSRH_PASSWORD")
+    ?: project.findProperty("OSSRH_PASSWORD") as? String
+    ?: error("OSSRH_PASSWORD not found.")
 
 nexusPublishing {
     repositories {
         sonatype {
-            username.set(project.findProperty("OSSRH_USERNAME") as String? ?: System.getenv("OSSRH_USERNAME"))
-            password.set(project.findProperty("OSSRH_PASSWORD") as String? ?: System.getenv("OSSRH_PASSWORD"))
+            username.set(ossrhUsername)
+            password.set(ossrhPassword)
             nexusUrl.set(uri("https://ossrh-staging-api.central.sonatype.com/service/local/"))
             snapshotRepositoryUrl.set(uri("https://central.sonatype.com/repository/maven-snapshots/"))
         }
