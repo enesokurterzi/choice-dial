@@ -9,15 +9,14 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Make gradlew executable
+      - name: Grant execution permission
         run: chmod +x ./gradlew
 
-      - name: Set up Java 17
+      - name: Setup Java 17
         uses: actions/setup-java@v4
         with:
           distribution: temurin
@@ -27,9 +26,9 @@ jobs:
           server-password: ${{ secrets.OSSRH_PASSWORD }}
 
       - name: Publish to Sonatype
+        run: ./gradlew publishToSonatype
         env:
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
           SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
           SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
-        run: ./gradlew publishToSonatype

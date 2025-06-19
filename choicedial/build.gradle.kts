@@ -48,18 +48,17 @@ afterEvaluate {
         publications {
             create<MavenPublication>("release") {
                 from(components["release"])
-
-                groupId = "io.github.enesokurterzi"
+                groupId = project.group as String
                 artifactId = "choicedial"
-                version = "1.0.0"
+                version = project.version as String
 
                 pom {
                     name.set("ChoiceDial")
-                    description.set("A lightweight customizable dial-style picker library for Jetpack Compose.")
+                    description.set("A lightweight customizable dial‑style picker library for Jetpack Compose.")
                     url.set("https://github.com/enesokurterzi/choice-dial")
                     licenses {
                         license {
-                            name.set("The Apache License, Version 2.0")
+                            name.set("Apache‑2.0")
                             url.set("https://www.apache.org/licenses/LICENSE-2.0.txt")
                         }
                     }
@@ -88,6 +87,7 @@ afterEvaluate {
         sign(publishing.publications["release"])
     }
 }
+
 
 dependencies {
     implementation(libs.androidx.core.ktx)

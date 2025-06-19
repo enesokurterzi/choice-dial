@@ -4,17 +4,19 @@ plugins {
     alias(libs.plugins.kotlin.android) apply false
     alias(libs.plugins.kotlin.compose) apply false
     alias(libs.plugins.android.library) apply false
-    alias(libs.plugins.maven.publish) // nexus publish plugin
+    id("maven-publish")
+    id("signing")
+    id("io.github.gradle-nexus.publish-plugin") version "2.0.0"
 }
 
 
 nexusPublishing {
     repositories {
         sonatype {
+            username.set(project.findProperty("OSSRH_USERNAME") as String? ?: System.getenv("OSSRH_USERNAME"))
+            password.set(project.findProperty("OSSRH_PASSWORD") as String? ?: System.getenv("OSSRH_PASSWORD"))
             nexusUrl.set(uri("https://ossrh-staging-api.central.sonatype.com/service/local/"))
             snapshotRepositoryUrl.set(uri("https://central.sonatype.com/repository/maven-snapshots/"))
-            username.set(System.getenv("OSSRH_USERNAME"))
-            password.set(System.getenv("OSSRH_PASSWORD"))
         }
     }
 }
