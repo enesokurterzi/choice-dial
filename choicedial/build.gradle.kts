@@ -1,13 +1,13 @@
+import com.vanniktech.maven.publish.SonatypeHost
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     id("maven-publish")
     id("signing")
+    id("com.vanniktech.maven.publish") version "0.30.0"
 }
-
-group = "io.github.enesokurterzi"
-version = "1.0.14"
 
 android {
     namespace = "io.github.enesokurterzi"
@@ -43,51 +43,57 @@ android {
     }
 }
 
-afterEvaluate {
-    publishing {
-        publications {
-            create<MavenPublication>("release") {
-                from(components["release"])
-                groupId = project.group as String
-                artifactId = "choicedial"
-                version = project.version as String
+mavenPublishing {
+    coordinates(
+        groupId = "io.github.enesokurterzi",
+        artifactId = "choicedial",
+        version = "1.0.0"
+    )
 
-                pom {
-                    name.set("ChoiceDial")
-                    description.set("A lightweight customizable dial‑style picker library for Jetpack Compose.")
-                    url.set("https://github.com/enesokurterzi/choice-dial")
-                    licenses {
-                        license {
-                            name.set("Apache‑2.0")
-                            url.set("https://www.apache.org/licenses/LICENSE-2.0.txt")
-                        }
-                    }
-                    developers {
-                        developer {
-                            id.set("enesokurterzi")
-                            name.set("Enes Okurterzi")
-                            email.set("enes.okurterzi98@gmail.com")
-                        }
-                    }
-                    scm {
-                        connection.set("scm:git:github.com/enesokurterzi/choice-dial.git")
-                        developerConnection.set("scm:git:ssh://github.com/enesokurterzi/choice-dial.git")
-                        url.set("https://github.com/enesokurterzi/choice-dial")
-                    }
-                }
+    pom {
+        name.set("ChoiceDial")
+        description.set("A lightweight customizable dial‑style picker library for Jetpack Compose.")
+        inceptionYear.set("2025")
+        url.set("https://github.com/enesokurterzi/choice-dial")
+
+        licenses {
+            license {
+                name.set("Apache‑2.0")
+                url.set("https://www.apache.org/licenses/LICENSE-2.0.txt")
             }
+        }
+
+        developers {
+            developer {
+                id.set("enesokurterzi")
+                name.set("Enes Okurterzi")
+                email.set("enes.okurterzi98@gmail.com")
+            }
+        }
+
+        scm {
+            url.set("https://github.com/enesokurterzi/choice-dial")
         }
     }
 
-    signing {
-        useInMemoryPgpKeys(
-            System.getenv("SIGNING_KEY"),
-            System.getenv("SIGNING_PASSWORD")
-        )
-        sign(publishing.publications["release"])
-    }
-}
+    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
 
+    /**
+     * uncomment the following lines to enable signing of the artifacts and add this five properties to your gradle.properties file:
+     * signing.keyId, signing.password, signing.key, mavenCentralUserName, mavenCentralPassword
+     * after that run the following command to publish the library:
+     * ./gradlew publishAndReleaseToMavenCentral
+     */
+
+//    signing {
+//        useInMemoryPgpKeys(
+//            project.findProperty("signing.key") as String,
+//            project.findProperty("signing.password") as String
+//        )
+//        sign(publishing.publications)
+//    }
+
+}
 
 dependencies {
     implementation(libs.androidx.core.ktx)
